@@ -26,8 +26,38 @@ Sobald das Fenster geschlossen wird, ist der Mauszeiger wieder vollständig „f
 
 ## Installation & Nutzung
 
-1. Repository klonen oder herunterladen:  
+1.Repository klonen oder herunterladen:
    ```bash
    git clone https://github.com/RothFHmas/MauszeigerLock.git
-   ´´´
-   
+   ```
+2.Python-Abhängigkeiten installieren:
+   ```bash
+   pip install screeninfo pywin32
+   ```
+3.Das Skript direkt ausführen (für Entwickler):
+   ```python
+   python src/MauszeigerLock.py
+   ```
+4.Alternativ die ```.exe``` aus ```dist``` starten – kein Python erforderlich
+
+## EXE selbst generieren
+
+Falls du die ```.exe``` selbst erstellen möchtest, kannst du folgenden Befehl verwenden:
+```bash
+pyinstaller --onefile --windowed --icon=Bilder/Ai_image.ico src/MauszeigerLock.py
+```
+
+⚡ Hinweis: Der Pfad zum Icon (```Bilder/Ai_image.ico```) muss korrekt sein.
+Die fertige ```.exe``` findest du danach im ```dist```-Ordner.
+
+## Lizenz & Sicherheit
+
+- Dieses Programm ist 100% frei und lizenzfrei, kann von jedem genutzt, verändert und weitergegeben werden
+
+- Enthält keine Malware, Spyware oder versteckten Funktionen – volle Sicherheit für den Nutzer
+
+- Für teile dieses Programms wurde KI verwendet
+
+Entwickler
+
+[RothFHmas](https://github.com/RothFHmas) auf GitHub
