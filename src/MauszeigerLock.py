@@ -31,7 +31,7 @@ def release_mouse():
 # ---------------- GUI ----------------
 root = tk.Tk()
 root.title("Mauszeiger Lock")
-root.geometry("460x300")
+root.geometry("460x400")
 root.resizable(False, False)
 
 info_text = (
@@ -98,3 +98,4 @@ def on_close():
 root.protocol("WM_DELETE_WINDOW", on_close)
 
 root.mainloop()
+
