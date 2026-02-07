@@ -2,7 +2,12 @@ import tkinter as tk
 from tkinter import ttk
 from screeninfo import get_monitors
 import win32api
-import webbrowser
+import time
+
+LOCK_INTERVAL_MS = 150  # wie oft die Mausbeschränkung erneuert wird
+
+current_monitor = None
+lock_active = False
 
 # ---------------- Maussteuerung ----------------
 def get_monitor_for_window(root):
@@ -28,10 +33,31 @@ def release_mouse():
     max_y = max(m.y + m.height for m in get_monitors())
     win32api.ClipCursor((min_x, min_y, max_x, max_y))
 
+# ---------------- Lock-Logik ----------------
+def enforce_lock():
+    if lock_active and current_monitor is not None:
+        clip_mouse_to_monitor(current_monitor)
+        root.after(LOCK_INTERVAL_MS, enforce_lock)
+
+def lock_mouse():
+    global current_monitor, lock_active
+    current_monitor = get_monitor_for_window(root)
+    if current_monitor:
+        lock_active = True
+        clip_mouse_to_monitor(current_monitor)
+        enforce_lock()
+        print("Maus dauerhaft auf Monitor gesperrt.")
+
+def unlock_mouse():
+    global lock_active
+    lock_active = False
+    release_mouse()
+    print("Maus freigegeben.")
+
 # ---------------- GUI ----------------
 root = tk.Tk()
 root.title("Mauszeiger Lock")
-root.geometry("460x400")
+root.geometry("460x300")
 root.resizable(False, False)
 
 info_text = (
@@ -48,31 +74,14 @@ info_text = (
     "  kostenlos genutzt, verändert und weitergegeben werden.\n\n"
     "👨‍💻 Entwickler:\n"
     "RothFHmas (GitHub-Link unten)"
+    "V1.1"
 )
 
 label_info = tk.Label(root, text=info_text, justify="left", wraplength=440)
 label_info.pack(padx=10, pady=10)
 
-def open_github(event=None):
-    webbrowser.open("https://github.com/RothFHmas")
-
-link = tk.Label(root, text="👉 https://github.com/RothFHmas", fg="blue", cursor="hand2")
-link.pack(pady=(0, 10))
-link.bind("<Button-1>", open_github)
-
-# ---------------- Buttons ----------------
 button_frame = ttk.Frame(root)
 button_frame.pack(pady=10)
-
-def lock_mouse():
-    monitor = get_monitor_for_window(root)
-    if monitor:
-        clip_mouse_to_monitor(monitor)
-        print(f"Maus auf Monitor begrenzt: {monitor}")
-
-def unlock_mouse():
-    release_mouse()
-    print("Maus freigegeben")
 
 btn_lock = ttk.Button(button_frame, text="Maus sperren", command=lock_mouse)
 btn_lock.grid(row=0, column=0, padx=10)
@@ -87,10 +96,7 @@ def on_key(event):
 
 root.bind('<Key>', on_key)
 
-# Automatisch sperren beim Start
-root.after(200, lock_mouse)
-
-# Beim Schließen freigeben
+# Beim Schließen Maus freigeben
 def on_close():
     unlock_mouse()
     root.destroy()
@@ -98,4 +104,3 @@ def on_close():
 root.protocol("WM_DELETE_WINDOW", on_close)
 
 root.mainloop()
-
