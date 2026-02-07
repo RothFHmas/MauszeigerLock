@@ -58,6 +58,7 @@ Die fertige ```.exe``` findest du danach im ```dist```-Ordner.
 
 - Für teile dieses Programms wurde KI verwendet
 
-Entwickler
+## Entwickler
 
 [RothFHmas](https://github.com/RothFHmas) auf GitHub
+
