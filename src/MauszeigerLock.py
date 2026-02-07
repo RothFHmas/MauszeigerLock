@@ -57,7 +57,7 @@ def unlock_mouse():
 # ---------------- GUI ----------------
 root = tk.Tk()
 root.title("Mauszeiger Lock")
-root.geometry("460x300")
+root.geometry("400x380")
 root.resizable(False, False)
 
 info_text = (
@@ -73,7 +73,7 @@ info_text = (
     "- Das Tool ist lizenzfrei und darf von jedem\n"
     "  kostenlos genutzt, verändert und weitergegeben werden.\n\n"
     "👨‍💻 Entwickler:\n"
-    "RothFHmas (GitHub-Link unten)"
+    "RothFHmas (GitHub-Link unten)\n\n"
     "V1.1"
 )
 
